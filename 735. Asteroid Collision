@@ -1,0 +1,35 @@
+class Solution {
+    public int[] asteroidCollision(int[] asteroids) {
+        
+        Stack<Integer> st = new Stack<>();
+        
+        for(int asteroid : asteroids){
+              //asteroid in a postive then we have to push, positive means he go to the right direction  
+            if(asteroid>0){
+                st.push(asteroid);
+            }
+            else{
+                //check in a stack asteroid is positive but he smaller than new asteroid we have to destroyed stack asteroid
+                while(st.size()>0 && st.peek()>0 && st.peek() < -asteroid ){
+                    st.pop();
+                }
+                //if stack asteroid will be greater than we current asteroid then we have to destryed current asteroid means we have to pop stack asteroid;
+                if(st.size() > 0 && st.peek() > -asteroid){
+                    continue;
+                }
+                //if both will be same then both will get destroyed
+                else if(st.size() > 0 && st.peek() == - asteroid){
+                    st.pop();
+                }else{
+                    st.push(asteroid);
+                }
+            }
+
+        }
+        int ans[] = new int[st.size()];
+        for(int i =st.size()-1; i >=0; i--){
+            ans[i] = st.pop();
+        }
+        return ans;
+    }
+}
