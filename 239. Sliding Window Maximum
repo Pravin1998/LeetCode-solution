@@ -1,0 +1,28 @@
+class Solution {
+    //TC = O(n), sc = O(N)
+    public int[] maxSlidingWindow(int[] arr, int k) {
+        int n = arr.length;
+        int ans[] = new int[n-k+1];
+        int itr = 0;
+        Deque<Integer> deq = new ArrayDeque<>();
+
+        for(int i=0; i<arr.length;i++){
+            int ele = arr[i];
+
+            if(deq.size() > 0 && deq.getFirst()==i-k){
+                deq.removeFirst();
+            }
+            while(deq.size() > 0 && arr[deq.getLast()] <ele){
+                deq.removeLast();
+            }
+            deq.add(i);
+
+            if( i >= k-1 ){
+                ans[itr] = arr[deq.getFirst()];
+                itr++;
+            }
+        }
+
+        return ans;
+    }
+}
