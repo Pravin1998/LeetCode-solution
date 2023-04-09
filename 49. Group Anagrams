@@ -1,0 +1,52 @@
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        //freq map creating for code -> groups
+        HashMap<String, ArrayList<String>> map = new HashMap<>();
+
+        
+        //TC = O(n*m), sc = O(n)
+        for(String word : strs){
+
+
+            int freq[] = new int[26];
+            for(char ch : word.toCharArray()){
+                    freq[ch-'a'] = freq[ch-'a']+1;
+            }
+
+            StringBuilder code = new StringBuilder("");
+            
+            //generate code from this
+            for(int i=0; i<26;i++){
+                code.append((char)(i+'a'));
+                code.append(freq[i]);
+            }  
+
+            if(map.containsKey(code.toString()) == false){
+                ArrayList<String> group = new ArrayList<>();
+                group.add(word);
+                map.put(code.toString(),group);
+            }else{
+                ArrayList<String> group = map.get(code.toString());
+                group.add(word);
+                map.put(code.toString(), group);
+
+            }
+
+
+
+        }
+
+        List<List<String>> ans = new ArrayList<>();
+
+        for(String code : map.keySet() ){
+            
+            ans.add(map.get(code));
+        }
+
+        return ans;
+
+
+
+
+    }
+}
