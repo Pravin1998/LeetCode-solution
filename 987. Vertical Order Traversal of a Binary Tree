@@ -1,0 +1,93 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int maxofposition =0;
+    int minofposition =0;
+
+
+    
+    class Pair implements Comparable<Pair>{
+        TreeNode node;
+        int position;
+
+        Pair(TreeNode node, int position){
+            this.node = node;
+            this.position = position;
+        }
+        Pair(){
+            this.node = null;
+            this.position = 0;
+        }
+
+        public int compareTo(Pair other){
+            if(this.position == other.position){
+            return   this.node.val - other.node.val;
+            }
+            return this.position - other.position;
+
+        }
+    }
+
+    void getwidth(TreeNode node, int position){
+        if(node == null){
+            return ;
+        }
+        
+        getwidth(node.left, position-1);
+        getwidth(node.right,position+1);
+
+        maxofposition = Math.max(maxofposition, position);
+        minofposition = Math.min(minofposition, position);
+    }
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+    if(root == null){
+        return new ArrayList<>();
+    }    
+    getwidth(root,0);
+    int  width = maxofposition - minofposition;
+    int levels = width +1;
+
+    List<List<Integer>> vw = new ArrayList<>();
+    for(int i=0;i<levels;i++){
+        vw.add(new ArrayList<>());
+    }
+
+    PriorityQueue<Pair> ppq = new PriorityQueue<>();
+    ppq.add(new Pair(root, -minofposition));
+
+    while(ppq.size() > 0){
+        int size = ppq.size();
+
+        PriorityQueue<Pair> cpq = new PriorityQueue<>();
+
+        while(size > 0){
+            Pair rpair = ppq.remove();
+            vw.get(rpair.position).add(rpair.node.val);
+            if(rpair.node.left != null){
+                cpq.add(new Pair(rpair.node.left, rpair.position-1));
+            }
+            if(rpair.node.right != null){
+                cpq.add(new Pair(rpair.node.right, rpair.position+1));
+            }
+            size--;
+        }
+        ppq = cpq;
+    }
+
+    return vw;
+
+    }
+}
