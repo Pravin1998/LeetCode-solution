@@ -1,0 +1,69 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        zigzaglevelorder(root,result);
+        return result;
+    }
+
+    public void zigzaglevelorder(TreeNode root, List<List<Integer>> result){
+        if(root == null){
+            return;
+        }
+
+        int level = 1;
+
+        Queue<TreeNode> que = new ArrayDeque<>();
+        que.add(root);
+
+        while(que.size() > 0){
+            int size = que.size();
+            ArrayList<Integer> ans = new ArrayList<>();
+            while(size > 0){
+                TreeNode rNode = que.remove();
+
+            
+                ans.add(rNode.val);
+                if(rNode.left != null){
+                    que.add(rNode.left);
+                }
+                if(rNode.right != null){
+                    que.add(rNode.right);
+                }
+
+                size--;
+            }
+        ArrayList<Integer> sans = new ArrayList<>();
+        if(level %2 == 0){
+            for(int i=ans.size()-1;i>=0;i--){
+                sans.add(ans.get(i));
+            }
+            result.add(sans);
+        }else{
+            for(int i=0;i <ans.size();i++){
+                sans.add(ans.get(i));
+
+            }
+            result.add(sans);
+
+        }
+        level++;
+
+
+        }
+    }
+}
