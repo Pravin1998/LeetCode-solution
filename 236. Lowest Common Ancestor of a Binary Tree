@@ -1,0 +1,62 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    ArrayList<TreeNode> n2r = new ArrayList<>();
+    public boolean lca2(TreeNode root,TreeNode n ){
+        if(root == null){
+            return false;
+        }
+        if(root.val == n.val){
+           n2r.add(root);
+            return true;
+        }
+        boolean findlc = lca2(root.left, n);
+        if(findlc == true){
+            
+            n2r.add(root);
+            return true;
+        }
+
+        boolean findrc = lca2(root.right, n);
+        if(findrc == true){
+            n2r.add(root);
+            return true;
+        }
+        return false;
+
+    }
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        n2r = new ArrayList<>();
+        lca2(root,p);
+        ArrayList<TreeNode> n2rforn1 = n2r;
+
+        n2r = new ArrayList<>();
+        lca2(root,q);
+        ArrayList<TreeNode> n2rforn2 = n2r;
+
+        int i = n2rforn1.size()-1;
+        int j = n2rforn2.size()-1;
+        TreeNode lca = null;
+        while(i>=0 && j>=0){
+            if(n2rforn1.get(i) != n2rforn2.get(j)){
+                break;
+            }
+            else{
+                lca = n2rforn1.get(i);
+                i--;
+                j--;
+            }
+        }
+        return lca;
+    }
+}
+
+
+//another apporach
