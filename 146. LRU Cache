@@ -1,0 +1,104 @@
+class Node{
+    Node next;
+    Node prev;
+    int val;
+    int key;
+    //value means we ave brightness
+    Node(int key, int value){
+        this.key = key;
+        this.val = value;
+        this.next = null;
+        this.prev = null;
+    }
+    Node(){
+        this.key = 0;
+        this.val = 0;
+        this.next = null;
+        this.prev = null;
+    }
+}
+class LRUCache {
+    //we create a freq. map of key and address
+    HashMap<Integer, Node> map = new HashMap<>();
+    Node head;
+    Node tail;
+    int maxcapacity; 
+
+    public LRUCache(int capacity) {
+        //we creae a dummy node of head and tail
+        head = new Node();
+        tail = new Node();
+        head.next = tail;
+        tail.prev = head;
+        maxcapacity = capacity;
+        map = new HashMap<>();
+
+    }
+    
+    //we add node to first 
+    void addnodetofront(Node node){
+        Node A = head.next;
+        head.next = node;
+        node.next = A;
+        node.prev = head;
+        A.prev = node;
+    }
+    //removal of node
+    void removenode(Node node){
+        Node A = node.prev;
+        Node B = node.next;
+
+        A.next = B;
+        B.prev = A;
+        node.prev = null;
+        node.next = null;
+    }
+
+
+
+    //movenodetofront
+    void movetofront(Node node){
+        removenode(node);
+        addnodetofront(node);
+    }
+
+
+
+
+    public int get(int key) {
+            if(map.containsKey(key) == false){
+                return -1;
+            }else{
+                Node node = map.get(key);
+                int value = node.val;
+                movetofront(node);
+                return value;
+            }
+    }
+    
+    public void put(int key, int value) {
+        if(map.containsKey(key) == true){
+            Node node = map.get(key);
+            node.val = value;
+            movetofront(node);            
+        }else{
+            Node node = new Node(key,value);
+            //check capacity is full or not
+            if(map.size() == maxcapacity){
+                Node LRUnode = tail.prev;
+                removenode(LRUnode);
+                map.remove(LRUnode.key);        
+        }
+        map.put(key,node);
+        addnodetofront(node);
+    }
+}
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
+Console
