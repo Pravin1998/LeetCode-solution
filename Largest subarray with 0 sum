@@ -1,0 +1,47 @@
+import java.util.HashMap;
+import java.io.*;
+import java.util.*;
+
+class Solution {
+   public int maxLen(int arr[])
+	{
+		// Write your code here
+		
+		int maxlength = 0;
+		
+		HashMap<Integer, Integer> runningsummap = new HashMap<>();
+		runningsummap.put(0,-1);
+		int runningsum = 0;
+		for(int i=0; i<arr.length; i++){
+		    runningsum += arr[i];
+		    
+		    if(runningsummap.containsKey(runningsum) == true){
+		        int length = i - runningsummap.get(runningsum);
+		    
+		        maxlength = Math.max(maxlength, length);
+		    }else{
+		        runningsummap.put(runningsum,i);
+		    }
+		    
+		    
+		}
+		return maxlength;
+		
+	}
+}
+
+class Main {
+	
+	public static void main(String arg[])
+	{
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int[] nums = new int[n];
+		for (int i = 0; i < n; i++)
+		{
+			nums[i] = sc.nextInt();
+		}
+        Solution Obj = new Solution();
+		System.out.println(Obj.maxLen(nums));
+	}
+}
