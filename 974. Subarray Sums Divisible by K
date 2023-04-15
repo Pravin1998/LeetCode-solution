@@ -1,0 +1,23 @@
+class Solution {
+    public int subarraysDivByK(int[] nums, int k) {
+    int ans = 0;        
+
+        //runningsummap
+        HashMap<Integer, Integer> remfreqmap = new HashMap<>();
+        remfreqmap.put(0,1);
+        int runningsum = 0;
+        for(int num:nums){
+            runningsum += num;
+            int rem = runningsum % k;
+            if(rem<0){
+                rem = rem +k;
+            }
+
+            if(remfreqmap.containsKey(rem) == true){
+                ans = ans + remfreqmap.get(rem);
+            }
+            remfreqmap.put(rem,remfreqmap.getOrDefault(rem,0)+1);
+        }
+        return ans;
+    }
+}
