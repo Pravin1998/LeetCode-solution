@@ -1,0 +1,31 @@
+class GFG
+{
+    public static int idx;
+    public static Node constructTree(int postorder[],int n)
+    {
+       	idx = n-1;
+
+		return construct(postorder,Integer.MIN_VALUE,Integer.MAX_VALUE);
+		
+    }
+	public static Node construct(int postorder[], int l,int r){
+		if(idx <0){
+			return null;
+		}
+		//check for range
+		if(postorder[idx] < l ||  postorder[idx] > r){
+			return null;
+		}
+
+		//place node 
+		Node me = new Node(postorder[idx]);
+		idx -- ;
+		//attach right node
+		me.right = construct(postorder, me.data+1 , r);
+
+		//attach left node
+		me.left = construct(postorder, l , me.data -1);
+
+		return me;
+    }
+}
