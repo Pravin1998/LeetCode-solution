@@ -1,0 +1,45 @@
+class GFG 
+{
+    class Helper{
+        Node parent;
+        int l;
+        int r;
+        Helper(Node parent ,int l, int r){
+            this.parent = parent;
+            this.l = l;
+            this.r = r;
+        }
+    }
+    //Function to construct the BST from its given level order traversal.
+    public Node constructBST(int[] arr)
+    {
+        //Write your code here 
+        Node root = new Node(arr[0]);
+        
+        Queue<Helper> que = new ArrayDeque<>();
+        // i am the potential parent and i have the left child and right child
+        que.add(new Helper(root, Integer.MIN_VALUE, root.data-1));
+        que.add(new Helper(root,root.data+1, Integer.MAX_VALUE));
+        
+        int idx = 1;
+        
+        while(que.size() > 0){
+            Helper curr = que.remove();
+            
+            if(idx == arr.length) continue;
+            if(arr[idx] < curr.l || arr[idx]>curr.r) continue;
+            
+            Node me = new Node(arr[idx]);
+            idx++;
+            //if i am in the range
+            if(me.data<curr.parent.data) curr.parent.left = me;
+            else curr.parent.right = me;
+            
+            //i am also potential parent so i have left and right child
+            que.add(new Helper(me,curr.l,me.data-1));
+            que.add(new Helper(me,me.data+1,curr.r));
+            
+        }
+        return root;
+    }
+}
