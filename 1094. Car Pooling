@@ -1,0 +1,28 @@
+class Solution {
+    //tc = O(N), SC = O(N)
+    public boolean carPooling(int[][] trips, int capacity) {
+        int station[] = new int[1001];
+
+        for(int trip[] : trips){
+            int numofpass = trip[0];
+            int sp = trip[1];
+            int ep = trip[2];
+
+            station[sp] += numofpass;
+            station[ep] -= numofpass;
+        }
+        if(station[0] > capacity ){
+            return false;
+        }
+        //create a prefix sum array
+        for(int i=1; i<1001; i++){
+            
+            station[i] = station[i] + station[i-1];
+            //we have to check no. of passenger stay in train at station is greater than capacity than it is not possible to trip all the passenger
+            if(station[i] > capacity){
+                return false;
+            }
+        }
+        return true;
+    }
+}
