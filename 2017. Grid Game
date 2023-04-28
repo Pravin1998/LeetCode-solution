@@ -1,0 +1,34 @@
+class Solution {
+    public long gridGame(int[][] grid) {
+        int n = grid[0].length;
+        
+        long prefixfromrow1[] = new long[n];
+        long suffixfromrow0[] = new long[n];
+
+        //create a prefix sum array for out of row1
+        prefixfromrow1[0] = grid[1][0];
+       
+        for(int i=1; i<n; i++){
+            prefixfromrow1[i] = prefixfromrow1[i-1] + grid[1][i]; 
+        }
+
+         //create a suffix sum array for out of row 0
+        suffixfromrow0[n-1] = grid[0][n-1];
+        for(int i=n-2; i>=0; i--){
+            suffixfromrow0[i] = grid[0][i] + suffixfromrow0[i+1];
+        }
+
+        //for robot a we have different paths(n paths) from col "j" where switches the row for robot a
+        long overall = Long.MAX_VALUE;
+        for(int j = 0; j<n;j++){
+            //if we have switches the row on col jth , then we have two choices
+            long choice1 = (j-1) >= 0 ? prefixfromrow1[j-1] : 0;
+            long choice2 = (j+1) < n ? suffixfromrow0[j+1] : 0;
+
+            long robotBbestchoice = Math.max(choice1, choice2);
+            overall = Math.min(robotBbestchoice, overall); 
+        }
+        return overall;
+    
+    }
+}
