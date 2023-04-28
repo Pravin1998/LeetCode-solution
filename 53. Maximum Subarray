@@ -1,0 +1,39 @@
+class Solution {
+    public int maxSubArray(int[] nums) {
+        
+        
+       int maxsubarraysum = Integer.MIN_VALUE;
+        int train = 0;
+        
+        int ctsp = 0;
+        int ctep = 0;
+
+        int sp = -1;
+        int ep = -1;
+
+        for(int i=0;i<nums.length; i++){
+            int prev = train + nums[i];
+
+            int newtrain = nums[i];
+
+            if(prev<newtrain){
+                ctsp = i; 
+
+                train = newtrain; 
+            }else train = prev;
+            ctep = i;
+
+               if(maxsubarraysum < train){
+
+                   maxsubarraysum = train;
+                   sp = ctsp;
+                   ep = ctep;
+               } 
+
+              
+
+        }
+        System.out.println(sp+ " "  + ep);
+        return maxsubarraysum;
+    }
+}
