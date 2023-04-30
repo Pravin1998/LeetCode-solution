@@ -1,0 +1,59 @@
+import java.util.*;
+
+class Solution {
+    public int maxsubarraysumatmostk(int arr[], int k){
+        int pref = 0;
+        int maximum = Integer.MIN_VALUE;
+        TreeSet<Integer> ts = new TreeSet<>();
+        ts.add(0);
+        for(int i=0; i<arr.length;i++){
+            pref = pref + arr[i];
+            
+            Integer closesttoideal = ts.ceiling(pref-k);
+            if(closesttoideal != null){
+                int subarraysum = pref - closesttoideal;
+                maximum = Math.max(subarraysum,maximum);
+            }
+            ts.add(pref);
+        }
+        return maximum;
+    }
+    public int maxSumSubmatrix(int[][] arr, int k) {
+        //Write code here
+        int ans = Integer.MIN_VALUE;
+
+        for(int left = 0 ; left <arr[0].length; left++){
+            int row[] = new int[arr.length];
+            for(int right = left ; right<arr[0].length; right++){
+                for(int i=0; i<arr.length;i++){
+                    row[i] = row[i] + arr[i][right];
+                 
+                }
+                int cans = maxsubarraysumatmostk(row,k);
+                ans = Math.max(cans,ans);
+            }
+            
+        }
+        return ans;
+
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int m, n;
+        m = sc.nextInt();
+        n = sc.nextInt();
+        int[][] matrix = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++)
+                matrix[i][j] = sc.nextInt();
+        }
+        int k;
+        k = sc.nextInt();
+        Solution Obj = new Solution();
+        System.out.println(Obj.maxSumSubmatrix(matrix, k));
+        sc.close();
+    }
+}
