@@ -1,0 +1,43 @@
+class Solution {
+    //TC = O(N*2)
+    public List<List<Integer>> threeSum(int[] arr) {
+        Arrays.sort(arr);
+        List<List<Integer>> res = new ArrayList<>();
+        int n = arr.length;
+        int target = 0;
+        int i =0;
+        while(i<n){
+            int newtarget = target - arr[i];
+            int l =i+1;
+            int r = n-1;
+            while(l<r){
+                int sum = arr[l] + arr[r];
+                if(newtarget == sum){
+                    ArrayList<Integer> ans = new ArrayList<>();
+                    ans.add(arr[i]);
+                    ans.add(arr[l]);
+                    ans.add(arr[r]);
+                    res.add(ans);
+
+                    int prevL = arr[l];
+                    while(l<r && arr[l] == prevL) l++;
+                
+                int prevR = arr[r];
+                    while(r>l && arr[l] == prevL) r--;
+                }else if(sum<newtarget){
+                int prevL = arr[l];
+                    while(l<r && arr[l] == prevL) l++;
+                    
+                }else{
+                    int prevR = arr[r];
+                    while(r>l && arr[r] == prevR) r--;
+                }
+
+            }
+            int prevI = arr[i];
+            while(i<n && arr[i] == prevI) i++;
+        }
+        return res;
+    }
+
+}
