@@ -10,13 +10,13 @@ class Solution {
               int j = i+1;
             while(j<n){
                 //to find remaining target for the sum
-                long currenttarget = (long)((long)target - (long)((long)arr[i] + (long)arr[j]));
+                long newtarget = (long)((long)target - (long)((long)arr[i] + (long)arr[j]));
                 int l = j+1;
                 int r = n-1;
                 while(l<r){
-                long sum = (long)((long)arr[l] + (long)arr[r]);
+                long currentsum = (long)((long)arr[l] + (long)arr[r]);
                
-                if(currenttarget == sum ){
+                if(newtarget == currentsum ){
                      ArrayList<Integer> ans = new ArrayList<>();
                     ans.add(arr[i]);
                     ans.add(arr[j]);
@@ -30,7 +30,7 @@ class Solution {
                     while(r>l && arr[r] == prevR) r--;
 
 
-                }else if(sum<currenttarget){
+                }else if(currentsum<newtarget){
                     int prevL = arr[l];
                     while(l<r && arr[l] == prevL) l++;
 
