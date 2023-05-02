@@ -1,0 +1,46 @@
+class Solution {
+    public boolean isvalid(HashMap<Character, Integer> ht,HashMap<Character, Integer> hw ){
+        for(char ch : ht.keySet()){
+            int idealfreq = ht.get(ch);
+            if(hw.containsKey(ch) == false || hw.get(ch) <idealfreq){
+                return false;
+            }
+        }
+        return true;
+    }
+    public String minWindow(String s, String t) {
+        HashMap<Character,Integer> ht = new HashMap<>();
+        HashMap<Character,Integer> hw = new HashMap<>();
+
+        for(int i=0; i<t.length();i++){
+            char ch = t.charAt(i);
+            ht.put(ch,ht.getOrDefault(ch,0)+1);
+        }
+
+        int sp =0;
+        int ep=0;
+        int anslength = Integer.MAX_VALUE;
+        String ans = "";
+
+        while(ep<s.length()){
+            //introduce a new member into window
+            hw.put(s.charAt(ep),hw.getOrDefault(s.charAt(ep),0) +1);
+        
+
+        //shrink window untill is invalid
+        while(isvalid(ht,hw) == true){
+            //if our answer length is minimum then we update the ans
+            if(anslength> ep-sp+1){
+                ans = s.substring(sp,ep+1);
+                anslength = ep-sp+1;
+            }
+            hw.put(s.charAt(sp),hw.get(s.charAt(sp))-1);
+            sp++;
+        }
+
+        //expand the window
+        ep++;
+        }
+        return ans;
+    }
+}
